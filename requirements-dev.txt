@@ -1,0 +1,14 @@
+# Dépendances de développement pour Pymodoro-CLI
+# ================================================
+
+# Framework de tests
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Couverture de code
+coverage>=7.0.0
+
+# Qualité de code (optionnel)
+# flake8>=6.0.0
+# black>=23.0.0
+# mypy>=1.0.0
