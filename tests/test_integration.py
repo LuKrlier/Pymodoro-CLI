@@ -59,7 +59,7 @@ class TestScenarioComplet:
                 main()
 
         # Doit lancer une pause de 10 minutes
-        mock_compte.assert_called_once_with(10, "PAUSE")
+        mock_compte.assert_called_once_with(10, "PAUSE", False)
 
 
 # =============================================================================
@@ -245,7 +245,7 @@ class TestScenariosPomodoro:
                 main()
 
         # Session de travail de 25 minutes
-        mock_compte.assert_called_with(25, "TRAVAIL")
+        mock_compte.assert_called_with(25, "TRAVAIL", False)
 
     @patch('pomodoro.executer_cycle_pomodoro')
     @patch('pomodoro.configurer_terminal')
@@ -273,7 +273,7 @@ class TestScenariosPomodoro:
             with patch.object(sys, 'stdout', captured):
                 main()
 
-        mock_compte.assert_called_with(45, "TRAVAIL")
+        mock_compte.assert_called_with(45, "TRAVAIL", False)
 
     @patch('pomodoro.compte_a_rebours')
     @patch('pomodoro.configurer_terminal')
@@ -284,4 +284,4 @@ class TestScenariosPomodoro:
             with patch.object(sys, 'stdout', captured):
                 main()
 
-        mock_compte.assert_called_with(2, "PAUSE")
+        mock_compte.assert_called_with(2, "PAUSE", False)

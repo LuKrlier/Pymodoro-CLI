@@ -262,7 +262,7 @@ class TestExecuterCyclePomodoro:
 
         # compte_a_rebours ne doit être appelé qu'une fois (travail seulement)
         assert mock_compte.call_count == 1
-        mock_compte.assert_called_with(25, "TRAVAIL")
+        mock_compte.assert_called_with(25, "TRAVAIL", False)
 
     @patch('pomodoro.compte_a_rebours')
     @patch('pomodoro.time.sleep')
@@ -318,7 +318,7 @@ class TestExecuterCyclePomodoro:
         # Vérifie que la pause longue est appelée
         calls = mock_compte.call_args_list
         # Le deuxième appel doit être la pause longue (15 min)
-        assert calls[1] == call(15, "PAUSE LONGUE")
+        assert calls[1] == call(15, "PAUSE LONGUE", False)
 
     @patch('pomodoro.compte_a_rebours')
     def test_pause_courte_cycles_normaux(self, mock_compte):
@@ -337,7 +337,7 @@ class TestExecuterCyclePomodoro:
 
         calls = mock_compte.call_args_list
         # Le deuxième appel doit être la pause courte (5 min)
-        assert calls[1] == call(5, "PAUSE")
+        assert calls[1] == call(5, "PAUSE", False)
 
 
 # =============================================================================

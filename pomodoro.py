@@ -155,7 +155,7 @@ def afficher_fin_session(type_session, message_emoji):
 # FONCTION PRINCIPALE DU COMPTE À REBOURS
 # =============================================================================
 
-def compte_a_rebours(duree_minutes, type_session="TRAVAIL"):
+def compte_a_rebours(duree_minutes, type_session="TRAVAIL", mode_silencieux=False):
     """
     Lance un compte à rebours dynamique dans le terminal.
 
@@ -167,6 +167,7 @@ def compte_a_rebours(duree_minutes, type_session="TRAVAIL"):
         duree_minutes (int): La durée du compte à rebours en minutes.
         type_session (str): Le type de session ("TRAVAIL" ou "PAUSE").
                            Utilisé pour personnaliser l'affichage.
+        mode_silencieux (bool): Si True, désactive les notifications sonores.
 
     Raises:
         KeyboardInterrupt: Si l'utilisateur appuie sur Ctrl+C pour annuler.
@@ -220,8 +221,9 @@ def compte_a_rebours(duree_minutes, type_session="TRAVAIL"):
         # Fin du compte à rebours
         effacer_ligne()
 
-        # Notification sonore
-        emettre_son()
+        # Notification sonore (sauf en mode silencieux)
+        if not mode_silencieux:
+            emettre_son()
 
         # Message visuel de fin
         if type_session == "TRAVAIL":
@@ -346,7 +348,7 @@ def creer_parseur_arguments():
 # =============================================================================
 
 def executer_cycle_pomodoro(duree_travail, duree_pause, duree_pause_longue,
-                            numero_cycle, total_cycles, mode_auto):
+                            numero_cycle, total_cycles, mode_auto, mode_silencieux=False):
     """
     Exécute un cycle Pomodoro complet (travail + pause).
 
@@ -357,12 +359,13 @@ def executer_cycle_pomodoro(duree_travail, duree_pause, duree_pause_longue,
         numero_cycle (int): Numéro du cycle actuel (commence à 1).
         total_cycles (int): Nombre total de cycles à effectuer.
         mode_auto (bool): Si True, enchaîne automatiquement les sessions.
+        mode_silencieux (bool): Si True, désactive les notifications sonores.
     """
     print(f"\n    📊 Cycle {numero_cycle}/{total_cycles}")
     print("    " + "═" * 45)
 
     # Session de travail
-    compte_a_rebours(duree_travail, "TRAVAIL")
+    compte_a_rebours(duree_travail, "TRAVAIL", mode_silencieux)
 
     # Vérification si c'est le dernier cycle
     if numero_cycle == total_cycles:
@@ -382,14 +385,14 @@ def executer_cycle_pomodoro(duree_travail, duree_pause, duree_pause_longue,
     if mode_auto:
         print(f"    ⏭️  Enchaînement automatique vers la {type_pause}...")
         time.sleep(2)
-        compte_a_rebours(duree_pause_actuelle, type_pause)
+        compte_a_rebours(duree_pause_actuelle, type_pause, mode_silencieux)
     else:
         # Sinon, on demande confirmation à l'utilisateur
         print(f"    ❓ Appuyez sur Entrée pour démarrer la {type_pause} ({duree_pause_actuelle} min)...")
         print("       (ou Ctrl+C pour quitter)")
         try:
             input()
-            compte_a_rebours(duree_pause_actuelle, type_pause)
+            compte_a_rebours(duree_pause_actuelle, type_pause, mode_silencieux)
         except KeyboardInterrupt:
             print("\n\n    👋 À bientôt !\n")
             sys.exit(0)
@@ -426,6 +429,7 @@ def main():
     nombre_cycles = args.cycles
     mode_auto = args.auto
     pause_seule = args.pause_only
+    mode_silencieux = args.silent
 
     # Affichage de la configuration actuelle
     print("    ⚙️  Configuration:")
@@ -434,10 +438,11 @@ def main():
     print(f"       • Pause longue: {duree_pause_longue} minutes")
     print(f"       • Cycles     : {nombre_cycles}")
     print(f"       • Mode auto  : {'Oui' if mode_auto else 'Non'}")
+    print(f"       • Silencieux : {'Oui' if mode_silencieux else 'Non'}")
 
     # Mode pause seule
     if pause_seule:
-        compte_a_rebours(duree_pause, "PAUSE")
+        compte_a_rebours(duree_pause, "PAUSE", mode_silencieux)
         return
 
     # Exécution des cycles
@@ -448,7 +453,8 @@ def main():
             duree_pause_longue=duree_pause_longue,
             numero_cycle=cycle,
             total_cycles=nombre_cycles,
-            mode_auto=mode_auto
+            mode_auto=mode_auto,
+            mode_silencieux=mode_silencieux
         )
 
         # Pause entre les cycles (sauf mode auto)
