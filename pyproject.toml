@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymodoro-timer"
+version = "1.0.0"
+description = "Un chronomètre Pomodoro en ligne de commande simple et efficace"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Lukrlier", email = "contact@lurlier.com"}
+]
+maintainers = [
+    {name = "Lukrlier", email = "contact@lurlier.com"}
+]
+keywords = [
+    "pomodoro",
+    "timer",
+    "productivity",
+    "cli",
+    "command-line",
+    "time-management",
+    "focus"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+    "Topic :: Office/Business :: Scheduling",
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "coverage>=7.0.0",
+]
+lint = [
+    "flake8>=6.0.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+]
+all = [
+    "pymodoro-timer[dev,lint]",
+]
+
+[project.scripts]
+pymodoro = "pomodoro:main"
+pomodoro = "pomodoro:main"
+
+[project.urls]
+Homepage = "https://github.com/lukrlier/pymodoro-cli"
+Documentation = "https://github.com/lukrlier/pymodoro-cli#readme"
+Repository = "https://github.com/lukrlier/pymodoro-cli.git"
+Issues = "https://github.com/lukrlier/pymodoro-cli/issues"
+Changelog = "https://github.com/lukrlier/pymodoro-cli/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+py-modules = ["pomodoro"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pomodoro*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["pomodoro"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true

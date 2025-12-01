@@ -17,13 +17,28 @@ Pymodoro-CLI est un outil CLI Python qui implémente la technique Pomodoro pour 
 
 ## Installation
 
+### Via PyPI (recommandé)
+
 ```bash
-# Cloner le dépôt
+pip install pymodoro-timer
+```
+
+C'est tout ! Les commandes `pymodoro` et `pomodoro` sont accessibles depuis n'importe où dans votre terminal.
+
+### Depuis les sources
+
+```bash
 git clone https://github.com/LuKrlier/Pymodoro-CLI.git
 cd Pymodoro-CLI
+pip install .
+```
 
-# Aucune dépendance externe requise (Python 3.6+)
-python pomodoro.py
+### Installation développeur
+
+```bash
+git clone https://github.com/LuKrlier/Pymodoro-CLI.git
+cd Pymodoro-CLI
+pip install -e ".[dev]"
 ```
 
 ## Utilisation
@@ -32,22 +47,22 @@ python pomodoro.py
 
 ```bash
 # Session de travail par défaut (25 minutes)
-python pomodoro.py
+pymodoro
 
 # Personnaliser la durée de travail
-python pomodoro.py --work 50
+pymodoro --work 50
 
 # Personnaliser la durée de pause
-python pomodoro.py --break 10
+pymodoro --break 10
 
 # Lancer plusieurs cycles
-python pomodoro.py --cycles 4
+pymodoro --cycles 4
 
 # Mode automatique (enchaîne sans intervention)
-python pomodoro.py --auto --cycles 4
+pymodoro --auto --cycles 4
 
 # Lancer une pause uniquement
-python pomodoro.py --pause-only
+pymodoro --pause-only
 ```
 
 ### Options disponibles
@@ -66,13 +81,13 @@ python pomodoro.py --pause-only
 
 ```bash
 # Session Pomodoro classique : 4 cycles de 25/5 min
-python pomodoro.py -w 25 -b 5 -c 4 -a
+pymodoro -w 25 -b 5 -c 4 -a
 
 # Session longue avec pauses étendues
-python pomodoro.py -w 45 -b 15 -l 30 -c 2
+pymodoro -w 45 -b 15 -l 30 -c 2
 
 # Pause rapide de 10 minutes
-python pomodoro.py -p -b 10
+pymodoro -p -b 10
 ```
 
 ## Technique Pomodoro
@@ -102,6 +117,7 @@ python -m pytest tests/ --cov=pomodoro --cov-report=term-missing
 ```
 Pymodoro-CLI/
 ├── pomodoro.py          # Script principal
+├── pyproject.toml       # Configuration du package
 ├── requirements-dev.txt # Dépendances de développement
 ├── tests/               # Tests unitaires
 │   ├── conftest.py
@@ -111,6 +127,7 @@ Pymodoro-CLI/
 │   ├── test_son.py
 │   ├── test_terminal.py
 │   └── test_integration.py
+├── LICENSE
 └── README.md
 ```
 
